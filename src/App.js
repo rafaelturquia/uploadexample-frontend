@@ -7,6 +7,14 @@ import Upload from './components/Upload';
 import FileList from './components/FileList'
 
 class App extends Component {
+  state = {
+    uploadedFiles: [],
+  };
+
+  handleUpload = files => {
+    console.log(files);
+  };
+
   render() {
     return (
       <Container>

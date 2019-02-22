@@ -10,7 +10,7 @@ export default class Upload extends Component {
       return <UploadMessage>Arraste arquivos aqui...</UploadMessage>
     }
 
-    if(!isDragReject) {
+    if(isDragReject) {
       return <UploadMessage type="error">Arquivo não suportado</UploadMessage>
     }
 
@@ -18,8 +18,10 @@ export default class Upload extends Component {
   };
 
   render() {
+    const { onUpload } = this.props;
+
     return (
-      <Dropzone accept="image/*" onDropAccepted={( )=> {}}>
+      <Dropzone accept="image/*" onDropAccepted={onUpload}>
         { ({ getRootProps, getInputProps, isDragActive, isDragReject}) => (
           <DropContainer
             { ...getRootProps()}
