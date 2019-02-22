@@ -56,10 +56,29 @@ class App extends Component {
 
         this.updateFile(uploadedFile.id, {
           progress,
-        })
+        });
       }
     })
+      .then(response => {
+        this.updateFile(uploadedFile.id, {
+          uploaded: true,
+          id: response.data._id,
+          url: response.data.url,
+        });
+      })
+      .catch(() => {
+        this.updateFile(uploadedFile.id, {
+          error: true,
+      });
+    });
+  };
 
+  handleDelete = async id => {
+    await api.delete(`posts/${id}`);
+
+    this.setState({
+      uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
+    });
   };
 
   render() {
@@ -70,7 +89,10 @@ class App extends Component {
         <Content>
           <Upload onUpload={this.handleUpload}/>
           { !!uploadedFiles.length && (
-            <FileList files={uploadedFiles} />
+            <FileList
+              files={uploadedFiles}
+              onDelete={this.handleDelete}
+            />
           ) }
         </Content>
         <GlobalStyle />
